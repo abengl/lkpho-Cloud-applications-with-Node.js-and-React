@@ -1,26 +1,49 @@
-const express = require('express');
+const express = require("express");
 const app = new express();
 
 let loginDetails = [];
 
-app.get("/",(req,res)=>{
-    res.send("Welcome to the express server")
-})
+app.get("/", (req, res) => {
+  res.send("Welcome to the express server");
+});
 
-app.get("/loginDetails",(req,res)=>{
-    res.send(JSON.stringify(loginDetails));
-})
+app.get("/loginDetails", (req, res) => {
+  res.send(JSON.stringify(loginDetails));
+});
 
-app.post("/login/:name",(req,res)=>{
-    loginDetails.push({"name":req.params.name,"login_time":new Date()});
-    res.send(req.params.name + ", You are logged in!")
-})
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
-app.get("/:name",(req,res)=>{
-    res.send("Hello "+req.params.name)
-})
+app.get("/fetchMonth/:num", (req, res) => {
+  let num = parseInt(req.params.num);
+  if (num > 12 || num < 1) {
+    res.send("Please enter a number between 1-12");
+  } else {
+    res.send(`The number ${num} equals to ${months[num - 1]}`);
+  }
+});
+
+app.post("/login/:name", (req, res) => {
+  loginDetails.push({ name: req.params.name, login_time: new Date() });
+  res.send(req.params.name + ", You are logged in!");
+});
+
+app.get("/:name", (req, res) => {
+  res.send("Hello " + req.params.name);
+});
 
 app.listen(3333, () => {
-    console.log(`Listening at http://localhost:3333`)
-})
-
+  console.log(`Listening at http://localhost:3333`);
+});
